@@ -45,15 +45,16 @@ with open ("sample_line.json", encoding="utf-8") as sample_line:
     lines = json.load(sample_line)
 
 points = lines["features"][0]["geometry"]["paths"][0]
-unedited = np.array(points)
+rawline = np.array(points)
+set_epsilon = 50
 
-result = np.array(douglas_peucker(points, 100))
+result = np.array(douglas_peucker(points, set_epsilon))
 
 x, y = result.T
-xs, ys = unedited.T
+xs, ys = rawline.T
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
-fig.suptitle("Douglas-Peucker algorithm")
+fig.suptitle("Douglas-Peucker algorithm, ε set to {}".format(set_epsilon))
 ax1.plot(xs, ys)
 ax1.plot(xs, ys, "r+")
 ax1.set_title("Raw line")
@@ -66,4 +67,5 @@ ax2.set_title("Simplified line")
 ax2.set(xlabel = "x-axis", ylabel = "y-axis")
 ax2.get_xaxis().set_visible(False)
 ax2.get_yaxis().set_visible(False)
+
 plt.show()
