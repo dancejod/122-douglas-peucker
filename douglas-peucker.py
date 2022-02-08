@@ -41,6 +41,23 @@ def douglas_peucker(points, epsilon):
     
     return vertices_dump
 
+def create_figure(graph1_x, graph1_y, graph2_x, graph2_y):
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    fig.suptitle("Douglas-Peucker algorithm, ε set to {}".format(set_epsilon), fontsize = 20)
+    ax1.plot(graph1_x, graph1_y)
+    ax1.plot(graph1_x, graph1_y, "r+")
+    ax1.set_title("Raw line")
+    ax1.set(xlabel = "x-axis", ylabel = "y-axis")
+    ax1.get_xaxis().set_visible(False)
+    ax1.get_yaxis().set_visible(False)
+    ax2.plot(graph2_x, graph2_y)
+    ax2.plot(graph2_x, graph2_y, "r+")
+    ax2.set_title("Simplified line")
+    ax2.set(xlabel = "x-axis", ylabel = "y-axis")
+    ax2.get_xaxis().set_visible(False)
+    ax2.get_yaxis().set_visible(False)
+    plt.show()
+
 with open ("sample_line.json", encoding="utf-8") as sample_line:
     lines = json.load(sample_line)
 
@@ -50,22 +67,7 @@ set_epsilon = 50
 
 result = np.array(douglas_peucker(points, set_epsilon))
 
-x, y = result.T
-xs, ys = rawline.T
+x, y = rawline.T
+xs, ys = result.T
 
-fig, (ax1, ax2) = plt.subplots(1, 2)
-fig.suptitle("Douglas-Peucker algorithm, ε set to {}".format(set_epsilon))
-ax1.plot(xs, ys)
-ax1.plot(xs, ys, "r+")
-ax1.set_title("Raw line")
-ax1.set(xlabel = "x-axis", ylabel = "y-axis")
-ax1.get_xaxis().set_visible(False)
-ax1.get_yaxis().set_visible(False)
-ax2.plot(x, y)
-ax2.plot(x, y, "r+")
-ax2.set_title("Simplified line")
-ax2.set(xlabel = "x-axis", ylabel = "y-axis")
-ax2.get_xaxis().set_visible(False)
-ax2.get_yaxis().set_visible(False)
-
-plt.show()
+create_figure(x, y, xs, ys)
