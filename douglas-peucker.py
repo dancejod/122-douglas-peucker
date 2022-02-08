@@ -15,21 +15,12 @@ def triangle_height(base, area):
     height = (2*area)/base
     return abs(height)
 
-with open ("sample_line.json", encoding="utf-8") as sample_line:
-    lines = json.load(sample_line)
-
-points = lines["features"][0]["geometry"]["paths"][0]
-
-unedited = np.array(points)
-
-print(points)
-
 def douglas_peucker(points, epsilon):
     start, end = points[0], points[-1]
     base = distance(start[0], start[1], end[0], end[1])
     max_length = 0
     max_length_index = None
-    
+    vertices_dump = []
 
     for point in points[1:-1]:
         area = calculate_area(start[0], start[1], point[0], point[1], end[0], end[1])
@@ -39,9 +30,7 @@ def douglas_peucker(points, epsilon):
             max_length = distance_to_base
             max_length_index = points.index(point)
     
-    vertices_dump = []
     if max_length > epsilon:
-
         left_side = douglas_peucker(points[:max_length_index+1], epsilon)
         vertices_dump += [list(i) for i in left_side if list(i) not in vertices_dump]
         right_side = douglas_peucker(points[max_length_index:], epsilon)
@@ -52,18 +41,29 @@ def douglas_peucker(points, epsilon):
     
     return vertices_dump
 
+with open ("sample_line.json", encoding="utf-8") as sample_line:
+    lines = json.load(sample_line)
+
+points = lines["features"][0]["geometry"]["paths"][0]
+unedited = np.array(points)
+
 result = np.array(douglas_peucker(points, 100))
-print(result)
+
 x, y = result.T
 xs, ys = unedited.T
 
-
-
-
-plt.plot(x, y)
-plt.plot(xs,ys)
-plt.plot(x, y, "r+")
+fig, (ax1, ax2) = plt.subplots(1, 2)
+fig.suptitle("Douglas-Peucker algorithm")
+ax1.plot(xs, ys)
+ax1.plot(xs, ys, "r+")
+ax1.set_title("Raw line")
+ax1.set(xlabel = "x-axis", ylabel = "y-axis")
+ax1.get_xaxis().set_visible(False)
+ax1.get_yaxis().set_visible(False)
+ax2.plot(x, y)
+ax2.plot(x, y, "r+")
+ax2.set_title("Simplified line")
+ax2.set(xlabel = "x-axis", ylabel = "y-axis")
+ax2.get_xaxis().set_visible(False)
+ax2.get_yaxis().set_visible(False)
 plt.show()
-#print(sample)
-#print(sample3)
-#print(float(poly.area))
