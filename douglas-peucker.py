@@ -2,20 +2,23 @@ try:
     import json
     import matplotlib.pyplot as plt
     import numpy as np
-    from sympy import Polygon, Point
+    from math import sqrt
 
-except ImportError as e:
-    raise ImportError(f"{e}.\nNemate nainstalovane nejaku z pozadovanych kniznic (matplotlib, numpy, sympy). Nainstalujte ich a spustite skript znova.")
+except ImportError:
+    print("Nemate nainstalovane nejaku z pozadovanych kniznic (matplotlib, numpy). Nainstalujte ich a spustite skript znova.")
+    raise
 
 def distance(x1, y1, x2, y2):
-    '''Vypocet vzdialenosti medzi dvoma bodmi o znamych suradniciach'''
-    d = Point(x1, y1).distance(Point(x2, y2))
-    return float(d)
+    '''Vypocet vzdialenosti medzi dvoma bodmi o znamych suradniciach pomocou Pytagorovej vety'''
+    d = sqrt((x2 - x1)**2 + (y2 - y1)**2)
+    return d
 
 def calculate_area(x1, y1, x2, y2, x3, y3):
-    '''Vypocet plochy trojuholnika definovaneho bodmi o znamych suradniciach'''
-    triangle = Polygon((x1, y1), (x2, y2), (x3, y3))
-    return float(triangle.area)
+    '''Vypocet plochy trojuholnika definovaneho bodmi o znamych suradniciach pomocou Heronovho vzorca'''
+    a, b, c = distance(x1, y1, x2, y2), distance(x2, y2, x3, y3), distance(x1, y1, x3, y3)
+    s = (a + b + c)/2
+    triangle_area = sqrt(s*(s-a)*(s-b)*(s-c))
+    return triangle_area
 
 def triangle_height(base, area):
     '''
@@ -107,11 +110,16 @@ try:
         lines = json.load(sample_line)
         points = lines["features"][0]["geometry"]["paths"][0]
 
-except IOError as e:
-    raise IOError(f'{e}.\nSubor neexistuje. Skontrolujte, ci je spravne pomenovany, v spravnom adresari, a spustite skript znova.')
+except IOError:
+    print("Subor neexistuje. Skontrolujte, ci je spravne pomenovany, v spravnom adresari, a spustite skript znova.")
+    raise
 
-except KeyError as e:
-    raise KeyError(f"{e}.\nSubor nema vsetky pozadovane atributy, opravte ho a spustite skript znova.")
+except KeyError:
+   print("Subor nema vsetky pozadovane atributy, opravte ho a spustite skript znova.")
+
+except:
+    print("Nieco sa pokazilo. Program sa teraz ukonci.")
+    raise
 
 # Nastavenie hodnoty epsilon, ! v S-JTSK su potrebne vyssie hodnoty pre prejavenie zmeny !
 set_epsilon = 50
