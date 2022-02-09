@@ -100,7 +100,7 @@ def create_figure(graph1_x, graph1_y, graph2_x, graph2_y):
 
 # Nacitanie dat zo suboru
 try:
-    with open ("sample_lines.json", encoding="utf-8") as sample_line:
+    with open ("sample_line.json", encoding="utf-8") as sample_line:
         lines = json.load(sample_line)
         points = lines["features"][0]["geometry"]["paths"][0]
 
