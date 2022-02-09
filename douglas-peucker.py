@@ -113,14 +113,11 @@ except IOError as e:
 except KeyError as e:
     raise KeyError(f"{e}.\nSubor nema vsetky pozadovane atributy, opravte ho a spustite skript znova.")
 
-except PermissionError as e:
-    raise PermissionError(f"{e}.\nSkript nema povolenie otvorit subor. Udelte prislusne povolenia a spustite skript znova.")
-
 # Nastavenie hodnoty epsilon, ! v S-JTSK su potrebne vyssie hodnoty pre prejavenie zmeny !
 set_epsilon = 50
 
-try:
-    result = np.array(douglas_peucker(points, set_epsilon))
+# Ulozenie vystupnej zjednodusenej linie, spustenie algoritmu
+result = np.array(douglas_peucker(points, set_epsilon))
 
 # Transponovanie suradnic pre vizualizaciu
 x, y = np.array(points).T
