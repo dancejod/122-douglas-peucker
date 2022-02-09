@@ -1,8 +1,11 @@
-import json
-import matplotlib.pyplot as plt
-import numpy as np
-from sympy import Polygon, Point
-import sys
+try:
+    import json
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from sympy import Polygon, Point
+
+except ImportError as e:
+    raise ImportError(f"{e}.\nNemate nainstalovane nejaku z pozadovanych kniznic (matplotlib, numpy, sympy). Nainstalujte ich a spustite skript znova.")
 
 def distance(x1, y1, x2, y2):
     '''Vypocet vzdialenosti medzi dvoma bodmi o znamych suradniciach'''
@@ -118,9 +121,6 @@ set_epsilon = 50
 
 try:
     result = np.array(douglas_peucker(points, set_epsilon))
-
-except ImportError as e:
-    raise ImportError(f"{e}.\nNemate nainstalovane nejaku z pozadovanych kniznic (matplotlib, numpy, sympy). Nainstalujte ich a spustite skript znova.")
 
 # Transponovanie suradnic pre vizualizaciu
 x, y = np.array(points).T
