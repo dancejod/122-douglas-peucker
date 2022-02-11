@@ -127,15 +127,23 @@ except KeyError:
    raise
 
 except:
-    print("Something went wrong, the script will now terminate .")
+    print("Something went wrong, the script will now terminate.")
     raise
 
 # Set the value of epsilon. This is the default value for the input coordinates in S-JTSK.
 # Lower the value if you use a different coordinate system.
 SET_EPSILON = 50
 
-# Store the simplified line into a variable
-result = np.array(douglas_peucker(points, SET_EPSILON))
+if len(points) == 2:
+    print("! Input line consists of only 2 vertices !")
+    result = np.array(points)
+
+elif len(points) < 2:
+    raise Exception("Input file does not contain a line, the script will now terminate.")
+
+else:
+    # Store the simplified line into a variable
+    result = np.array(douglas_peucker(points, SET_EPSILON))
 
 # Transpose the lines' coordinates, required for visualization
 x, y = np.array(points).T
