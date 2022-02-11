@@ -94,14 +94,14 @@ def create_figure(graph1_x, graph1_y, graph2_x, graph2_y):
         graph2_x(y)(list): List of coordinates of points of the simplified line.
     '''
     fig, (ax1, ax2) = plt.subplots(1, 2)
-    fig.suptitle("Douglas-Peucker algorithm, ε set to {}".format(set_epsilon), fontsize = 20)
+    fig.suptitle("Douglas-Peucker algorithm, ε set to {}".format(SET_EPSILON), fontsize = 20)
     ax1.plot(graph1_x, graph1_y, "-o", color = "black", markersize = 5, markerfacecolor = "white")
-    ax1.set_title("Raw line; number of vertices: {}".format(len(points)))
+    ax1.set_title("Raw line; number of vertices: {}".format(len(graph1_x)))
     ax1.set(xlabel = "x-axis", ylabel = "y-axis")
     ax1.get_xaxis().set_visible(False)
     ax1.get_yaxis().set_visible(False)
     ax2.plot(graph2_x, graph2_y, "-o", color = "black", markersize = 5, markerfacecolor = "white")
-    ax2.set_title("Simplified line; number of vertices: {}".format(len(result)))
+    ax2.set_title("Simplified line; number of vertices: {}".format(len(graph2_x)))
     ax2.set(xlabel = "x-axis", ylabel = "y-axis")
     ax2.get_xaxis().set_visible(False)
     ax2.get_yaxis().set_visible(False)
@@ -132,10 +132,10 @@ except:
 
 # Set the value of epsilon. This is the default value for the input coordinates in S-JTSK.
 # Lower the value if you use a different coordinate system.
-set_epsilon = 50
+SET_EPSILON = 50
 
 # Store the simplified line into a variable
-result = np.array(douglas_peucker(points, set_epsilon))
+result = np.array(douglas_peucker(points, SET_EPSILON))
 
 # Transpose the lines' coordinates, required for visualization
 x, y = np.array(points).T
